@@ -55,6 +55,9 @@ const Settings = {
   $pomodoroTickerVolume: null,
   $pomodoroTickerVolumeLabel: null,
 
+  $clubhouseUseCustomDescription: null,
+  $clubhouseCustomDescriptionTemplate: null,
+
   $sendUsageStatistics: null,
   $sendErrorReports: null,
   $enableAutoTagging: null,
@@ -89,6 +92,10 @@ const Settings = {
       const sendErrorReports = await db.get('sendErrorReports');
       const stopAtDayEnd = await db.get('stopAtDayEnd');
       const dayEndTime = await db.get('dayEndTime');
+
+      Settings.$clubhouseUseCustomDescription.checked = await (db.get('chUseCustomDescription'));
+      Settings.$clubhouseCustomDescriptionTemplate.disabled = !Settings.$clubhouseUseCustomDescription.checked;
+      Settings.$clubhouseCustomDescriptionTemplate.value = await db.get('chCustomDescriptionTemplate');
 
       Settings.$loginInfo.textContent = TogglButton.$user && TogglButton.$user.email || '';
 
@@ -678,6 +685,9 @@ document.addEventListener('DOMContentLoaded', async function (e) {
     Settings.$pomodoroTickerVolume = document.querySelector('#ticker-sound-volume');
     Settings.$pomodoroTickerVolumeLabel = document.querySelector('#ticker-volume-label');
 
+    Settings.$clubhouseUseCustomDescription = document.querySelector('#clubhouse-use-custom-description');
+    Settings.$clubhouseCustomDescriptionTemplate = document.querySelector('#clubhouse-custom-description-template');
+
     // Change active tab if present in search param
     const activeTabParam = getUrlParam(document.location, 'tab');
     changeActiveTab(activeTabParam || DEFAULT_TAB);
@@ -827,6 +837,14 @@ document.addEventListener('DOMContentLoaded', async function (e) {
         e.target.value / 100
       );
       Settings.$pomodoroTickerVolumeLabel.textContent = e.target.value + '%';
+    });
+
+    Settings.$clubhouseUseCustomDescription.addEventListener('input', async function (e) {
+      await db.set('chUseCustomDescription', e.target.checked);
+      Settings.$clubhouseCustomDescriptionTemplate.disabled = !e.target.checked;
+    });
+    Settings.$clubhouseCustomDescriptionTemplate.addEventListener('input', async function (e) {
+      await db.set('chCustomDescriptionTemplate', e.target.value);
     });
 
     const tickerSoundTest = document.querySelector('#ticker-sound-test');

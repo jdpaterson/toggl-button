@@ -120,7 +120,6 @@ window.TogglButton = {
       </div>
     </div>
     ` +
-
     `
     <div class="TB__Dialog__field" tabindex="0">
       <div>
@@ -2063,6 +2062,10 @@ window.TogglButton = {
           resolve({
             currentEntry: TogglButton.$curEntry
           });
+        } else if (request.type === 'getChCustomDescriptionSettings') {
+          const chUseCustomDescription = await db.get('chUseCustomDescription');
+          const chCustomDescriptionTemplate = await db.get('chCustomDescriptionTemplate');
+          return resolve({ chUseCustomDescription, chCustomDescriptionTemplate });
         } else if (request.type === 'error') {
           // Handling integration errors
           error = new Error();
