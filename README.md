@@ -49,6 +49,6 @@
   - Enable 'Use Custom Description'
   - If nothing displays in the Custom Description Template input, add: `({{ epicName }}) [{{ storyId }}] - {{ storyTitle }}`
 
-  That's it. Now head to app.clubhouse.io, open a card, and click the `Start Timer` button.
+  That's it. Now head to app.clubhouse.io, make sure the page is refreshed, open a card, and click the `Start Timer` button.
 
   The toggle timer info should be formatted appropriately.
