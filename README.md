@@ -1,6 +1,6 @@
 # Run Custom Toggl Button in browser development mode
 
-1. clone this repo locally: https://github.com/jdpaterson/toggl-button/tree/feature/clubhouse/description-templates
+1. clone this repo locally: https://github.com/jdpaterson/toggl-button
 2. navigate to the cloned directory
 3. run `npm install`
 4. run `npm run build`
