@@ -5,7 +5,6 @@
 3. run `npm install`
 4. run `npm run build`
 
-
 ## Installation Instructions
 
   ### Instructions for Chrome
@@ -33,13 +32,14 @@
   - Click Load Temporary Add-On and select `/[your-toggl-button-repo]/dist/firefox/manifest.json`
   - Follow the prompts to login to your toggle account
 
-
 ## Using Custom Clubhouse Settings
 
   ### Adding your Clubhouse address to integrations
   - Click the toggle-extension button in your browser window and click the 'gear' icon
   - Click on the Integrations tab
-  - Enter `https://app.clubhouse.io/laterolabs/` in the "Custom Domain URL' input
+  - In the list of integrations, check "Clubhouse"
+  - Scroll to Custom URLs for integrations
+  - Enter `laterolabs` in the "Custom Domain URL" input
   - Select Clubhouse from the dropdown
   - Click Add
 
