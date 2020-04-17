@@ -32,8 +32,8 @@ const DEFAULT_SETTINGS = {
   enableAutoTagging: false,
 
   // Clubhouse Settings
-  chUseCustomDescription: false,
-  chCustomDescriptionTemplate: '({{ epicName }}) [{{ storyId }}] - {{ storyTitle }}',
+  clubhouseUseCustomTemplate: false,
+  clubhouseCustomTemplate: '[{{ epicName }}] ({{ storyId }}) - {{ storyTitle }}',
 
   sendErrorReports: true,
   sendUsageStatistics: true

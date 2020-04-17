@@ -55,8 +55,8 @@ const Settings = {
   $pomodoroTickerVolume: null,
   $pomodoroTickerVolumeLabel: null,
 
-  $clubhouseUseCustomDescription: null,
-  $clubhouseCustomDescriptionTemplate: null,
+  $clubhouseUseCustomTemplate: null,
+  $clubhouseCustomTemplate: null,
 
   $sendUsageStatistics: null,
   $sendErrorReports: null,
@@ -93,9 +93,9 @@ const Settings = {
       const stopAtDayEnd = await db.get('stopAtDayEnd');
       const dayEndTime = await db.get('dayEndTime');
 
-      Settings.$clubhouseUseCustomDescription.checked = await (db.get('chUseCustomDescription'));
-      Settings.$clubhouseCustomDescriptionTemplate.disabled = !Settings.$clubhouseUseCustomDescription.checked;
-      Settings.$clubhouseCustomDescriptionTemplate.value = await db.get('chCustomDescriptionTemplate');
+      Settings.$clubhouseUseCustomTemplate.checked = await (db.get('clubhouseUseCustomTemplate'));
+      Settings.$clubhouseCustomTemplate.disabled = !Settings.$clubhouseUseCustomTemplate.checked;
+      Settings.$clubhouseCustomTemplate.value = await db.get('clubhouseCustomTemplate');
 
       Settings.$loginInfo.textContent = TogglButton.$user && TogglButton.$user.email || '';
 
@@ -685,8 +685,8 @@ document.addEventListener('DOMContentLoaded', async function (e) {
     Settings.$pomodoroTickerVolume = document.querySelector('#ticker-sound-volume');
     Settings.$pomodoroTickerVolumeLabel = document.querySelector('#ticker-volume-label');
 
-    Settings.$clubhouseUseCustomDescription = document.querySelector('#clubhouse-use-custom-description');
-    Settings.$clubhouseCustomDescriptionTemplate = document.querySelector('#clubhouse-custom-description-template');
+    Settings.$clubhouseUseCustomTemplate = document.querySelector('#clubhouse-use-custom-template');
+    Settings.$clubhouseCustomTemplate = document.querySelector('#clubhouse-custom-template');
 
     // Change active tab if present in search param
     const activeTabParam = getUrlParam(document.location, 'tab');
@@ -839,12 +839,12 @@ document.addEventListener('DOMContentLoaded', async function (e) {
       Settings.$pomodoroTickerVolumeLabel.textContent = e.target.value + '%';
     });
 
-    Settings.$clubhouseUseCustomDescription.addEventListener('input', async function (e) {
-      await db.set('chUseCustomDescription', e.target.checked);
-      Settings.$clubhouseCustomDescriptionTemplate.disabled = !e.target.checked;
+    Settings.$clubhouseUseCustomTemplate.addEventListener('input', async function (e) {
+      await db.set('clubhouseUseCustomTemplate', e.target.checked);
+      Settings.$clubhouseUseCustomTemplate.disabled = !e.target.checked;
     });
-    Settings.$clubhouseCustomDescriptionTemplate.addEventListener('input', async function (e) {
-      await db.set('chCustomDescriptionTemplate', e.target.value);
+    Settings.$clubhouseCustomTemplate.addEventListener('input', async function (e) {
+      await db.set('clubhouseCustomTemplate', e.target.value);
     });
 
     const tickerSoundTest = document.querySelector('#ticker-sound-test');
