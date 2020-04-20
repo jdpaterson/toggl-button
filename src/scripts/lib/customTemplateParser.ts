@@ -10,7 +10,7 @@ class CustomTemplateParser {
   parse():string {
     let strMatch = this.templateStr.match(this.regexParser);
     while (strMatch) {
-      this.templateStr = this.templateStr.replace(strMatch[0], this.templateMap[strMatch[1]]);
+      this.templateStr = this.templateStr.replace(strMatch[0], this.templateMap[strMatch[1]]());
       strMatch = this.templateStr.match(this.regexParser);
     }
     return this.templateStr;

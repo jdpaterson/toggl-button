@@ -2066,6 +2066,10 @@ window.TogglButton = {
           const useCustomTemplate = await db.get('clubhouseUseCustomTemplate');
           const customTemplate = await db.get('clubhouseCustomTemplate');
           return resolve({ useCustomTemplate, customTemplate });
+        } else if (request.type === 'getJiraCustomTemplateSettings') {
+          const useCustomTemplate = await db.get('jiraUseCustomTemplate');
+          const customTemplate = await db.get('jiraCustomTemplate');
+          return resolve({ useCustomTemplate, customTemplate });
         } else if (request.type === 'error') {
           // Handling integration errors
           error = new Error();

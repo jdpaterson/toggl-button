@@ -27,10 +27,10 @@ togglbutton.render('.story-state:not(.toggl)', { observe: true }, async function
 
   // Matches field names to appropriate get function
   const customTemplateMap = {
-    epicName: getEpicName(),
-    projectName: getProjectName(),
-    storyId: getStoryId(),
-    storyTitle: getStoryTitle()
+    epicName: getEpicName,
+    projectName: getProjectName,
+    storyId: getStoryId,
+    storyTitle: getStoryTitle
   };
 
   const templateSettings = new CustomTemplateMessenger('getClubhouseCustomTemplateSettings');

@@ -38,6 +38,14 @@
               <span>Integrations</span>
             </a>
           </li>
+          <li class="nav-link" data-tab="jira" >
+            <a href="settings.html?tab=jira">
+              <div class="nav-icon">
+                <img width="16" height="16" src="../images/jira-mark-gradient-white@2x.png" />
+              </div>
+              <span>JIRA</span>
+            </a>
+          </li>
           <li class="nav-link" data-tab="clubhouse" >
             <a href="settings.html?tab=clubhouse">
               <div class="nav-icon">
@@ -251,11 +259,11 @@
           <div class="checkbox field">
             <input type="checkbox" id="clubhouse-use-custom-template">
             <label for="clubhouse-use-custom-template">
-              <span class="setting">Use Custom Description</span>
+              <span class="setting">Use Custom Template</span>
               <span class="description">Allows for a custom description template.</span>
             </label>
           </div>
-          <div class="text field clubhouse-custom-template">
+          <div class="text field">
             <label for="clubhouse-custom-template">
               <span class="setting">Custom Description Template</span>
               <span class="description">
@@ -267,7 +275,35 @@
                   <li>storyTitle</li>
                 </ul>
               </span>
-              <input type="text" id="clubhouse-custom-template" />
+              <input class="custom-template-input" type="text" id="clubhouse-custom-template" />
+            </label>
+          </div>
+        </section>
+      </div>
+      <div class="tab" data-tab="jira">
+        <section>
+          <div class="headline">
+            <h3>JIRA settings</h3>
+          </div>
+          <div class="checkbox field">
+            <input type="checkbox" id="jira-use-custom-template">
+            <label for="jira-use-custom-template">
+              <span class="setting">Use Custom Template</span>
+              <span class="description">Allows for a custom description template.</span>
+            </label>
+          </div>
+          <div class="text field jira-custom-template">
+            <label for="jira-custom-template">
+              <span class="setting">Custom Description Template</span>
+              <span class="description">
+                Input any of the Following fields surrounded by curly-braces {{ }} to dynamically generate a toggle time description from a Clubhouse card.
+                <ul>
+                  <li>epicName</li>
+                  <li>storyId</li>
+                  <li>storyTitle</li>
+                </ul>
+              </span>
+              <input type="text" id="jira-custom-template" />
             </label>
           </div>
         </section>

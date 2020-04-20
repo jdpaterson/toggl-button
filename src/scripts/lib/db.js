@@ -35,6 +35,10 @@ const DEFAULT_SETTINGS = {
   clubhouseUseCustomTemplate: false,
   clubhouseCustomTemplate: '[{{ epicName }}] ({{ storyId }}) - {{ storyTitle }}',
 
+  // JIRA Settings
+  jiraUseCustomTemplate: false,
+  jiraCustomTemplate: '[{{ epicName }}] ({{ storyId }}) - {{ storyTitle }}',
+
   sendErrorReports: true,
   sendUsageStatistics: true
 };
