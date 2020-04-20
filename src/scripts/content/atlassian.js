@@ -1,4 +1,6 @@
 'use strict';
+import CustomTemplateMessenger from '../lib/customTemplateMessenger';
+import CustomTemplateParser from '../lib/customTemplateParser';
 
 // Jira 2017 board sidebar
 togglbutton.render(
@@ -36,7 +38,7 @@ togglbutton.render(
   // The main "issue link" at the top of the issue.
   '#jira-issue-header:not(.toggl)',
   { observe: true },
-  function (elem) {
+  async function (elem) {
     const container = elem.querySelector('[class^=BreadcrumbsContainer]');
     const issueNumberElement = container.lastElementChild;
 
@@ -52,9 +54,20 @@ togglbutton.render(
       console.info('🏃 "Jira 2020-01 issue detail" rendering');
     }
 
+    // Matches field names to appropriate get function
+    const customTemplateMap = {
+      epicName: getEpicName,
+      storyId: getStoryId,
+      storyTitle: getStoryTitle
+    };
+
+    const templateSettings = new CustomTemplateMessenger('getJiraCustomTemplateSettings');
+    await templateSettings.fetchSettings();
+    const templateParser = new CustomTemplateParser(customTemplateMap, templateSettings.customTemplate);
+
     const link = togglbutton.createTimerLink({
       className: 'jira2018',
-      description: getDescription(issueNumberElement),
+      description: templateSettings.useCustomTemplate ? templateParser.parse() : getDescription(issueNumberElement),
       projectName: getProject,
       container: '#jira-issue-header'
     });
@@ -86,6 +99,10 @@ const getDescription = (issueNumberElement) => () => {
   return description;
 };
 
+const getEpicName = () => {
+  return $('[data-test-id="issue.views.issue-base.foundation.breadcrumbs.breadcrumb-parent-issue-container"]').innerText.split('\n/')[0];
+};
+
 function getProject () {
   let project = '';
   let projectElement;
@@ -102,6 +119,14 @@ function getProject () {
 
   return project;
 }
+
+const getStoryId = () => {
+  return $('[data-test-id="issue.views.issue-base.foundation.breadcrumbs.breadcrumb-current-issue-container"]').innerText.split('\n')[0];
+};
+
+const getStoryTitle = () => {
+  return $('[data-test-id="issue.views.issue-base.foundation.summary.heading"]').innerText;
+};
 
 // Jira 2017 issue page
 togglbutton.render(

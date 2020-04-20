@@ -675,7 +675,7 @@ body[data-show-review-banner="true"] #review-prompt {
   transform: translateY(0);
 }
 
-#clubhouse-custom-description-template:disabled {
+.custom-template-input:disabled {
   background-color: var(--border-color);
   color: var(--light-text);
   cursor: not-allowed;
