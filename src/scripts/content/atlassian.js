@@ -139,7 +139,6 @@ togglbutton.render(
     if (process.env.DEBUG) {
       console.info('🏃 "Jira 2017 issue page" rendering');
     }
-    console.log('In Pre 2017 Issue page');
 
     const numElem = $('#key-val', elem);
     const titleElem = $('#summary-val', elem) || '';
@@ -188,7 +187,6 @@ togglbutton.render('#ghx-detail-issue:not(.toggl)', { observe: true }, function 
   const numElem = $('.ghx-fieldname-issuekey a');
   const projectElem = $('.ghx-project', elem);
   let description = titleElem.textContent;
-  console.log('In Pre 17 1');
   if (numElem !== null) {
     description = numElem.textContent + ' ' + description;
   }
@@ -212,7 +210,6 @@ togglbutton.render(
     const numElem = $('#key-val', elem);
     const titleElem = $('#summary-val', elem) || '';
     const projectElem = $('#project-name-val', elem);
-    console.log('In Pre 17 2');
     if (titleElem) {
       description = titleElem.textContent;
     }
