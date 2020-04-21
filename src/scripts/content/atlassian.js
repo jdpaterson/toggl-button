@@ -2,80 +2,6 @@
 import CustomTemplateMessenger from '../lib/customTemplateMessenger';
 import CustomTemplateParser from '../lib/customTemplateParser';
 
-// Jira 2017 board sidebar
-togglbutton.render(
-  '#ghx-detail-view [spacing] h1:not(.toggl)',
-  { observe: true },
-  function () {
-    if (process.env.DEBUG) {
-      console.info('🏃 "Jira 2017 sidebar" rendering');
-    }
-
-    const rootElem = $('#ghx-detail-view');
-    const container = createTag('div', 'jira-ghx-toggl-button');
-    const titleElem = $('[spacing] h1', rootElem);
-    const numElem = $('[spacing] a', rootElem);
-    const projectElem = $('.bgdPDV');
-    let description = titleElem.textContent;
-    if (numElem !== null) {
-      description = numElem.textContent + ' ' + description;
-    }
-
-    const link = togglbutton.createTimerLink({
-      className: 'jira2017',
-      description: description,
-      buttonType: 'minimal',
-      projectName: projectElem && projectElem.textContent
-    });
-
-    container.appendChild(link);
-    numElem.parentNode.appendChild(container);
-  }
-);
-
-// Jira Jan 2020 issue detail page. Uses functions for timer values due to SPA on issue-lists.
-togglbutton.render(
-  // The main "issue link" at the top of the issue.
-  '#jira-issue-header:not(.toggl)',
-  { observe: true },
-  async function (elem) {
-    const container = elem.querySelector('[class^=BreadcrumbsContainer]');
-    const issueNumberElement = container.lastElementChild;
-
-    if (container.querySelector('.toggl-button')) {
-      // We're checking for existence of the button as re-rendering in Jira SPA is not reliable for our uses.
-      if (process.env.DEBUG) {
-        console.info('🚫 "Jira 2020-01 issue detail" quit rendering early');
-      }
-      return;
-    }
-
-    if (process.env.DEBUG) {
-      console.info('🏃 "Jira 2020-01 issue detail" rendering');
-    }
-
-    // Matches field names to appropriate get function
-    const customTemplateMap = {
-      epicName: getEpicName,
-      storyId: getStoryId,
-      storyTitle: getStoryTitle
-    };
-
-    const templateSettings = new CustomTemplateMessenger('getJiraCustomTemplateSettings');
-    await templateSettings.fetchSettings();
-    const templateParser = new CustomTemplateParser(customTemplateMap, templateSettings.customTemplate);
-
-    const link = togglbutton.createTimerLink({
-      className: 'jira2018',
-      description: templateSettings.useCustomTemplate ? templateParser.parse() : getDescription(issueNumberElement),
-      projectName: getProject,
-      container: '#jira-issue-header'
-    });
-
-    container.appendChild(link);
-  }
-);
-
 const getDescription = (issueNumberElement) => () => {
   let description = '';
   // Title/summary of the issue - we use the hidden "edit" button that's there for a11y
@@ -128,6 +54,83 @@ const getStoryTitle = () => {
   return $('[data-test-id="issue.views.issue-base.foundation.summary.heading"]').innerText;
 };
 
+// Matches field names to appropriate get function
+const customTemplateMap = {
+  epicName: getEpicName,
+  storyId: getStoryId,
+  storyTitle: getStoryTitle
+};
+
+// Jira 2017 board sidebar
+togglbutton.render(
+  '#ghx-detail-view [spacing] h1:not(.toggl)',
+  { observe: true },
+  async function () {
+    if (process.env.DEBUG) {
+      console.info('🏃 "Jira 2017 sidebar" rendering');
+    }
+    const rootElem = $('#ghx-detail-view');
+    const container = createTag('div', 'jira-ghx-toggl-button');
+    const titleElem = $('[spacing] h1', rootElem);
+    const numElem = $('[spacing] a', rootElem);
+    const projectElem = $('.bgdPDV');
+    let description = titleElem.textContent;
+    if (numElem !== null) {
+      description = numElem.textContent + ' ' + description;
+    }
+
+    const templateSettings = new CustomTemplateMessenger('getJiraCustomTemplateSettings');
+    await templateSettings.fetchSettings();
+    const templateParser = new CustomTemplateParser(customTemplateMap, templateSettings.customTemplate);
+
+    const link = togglbutton.createTimerLink({
+      className: 'jira2017',
+      description: templateSettings.useCustomTemplate ? templateParser.parse() : description,
+      buttonType: 'minimal',
+      projectName: projectElem && projectElem.textContent
+    });
+
+    container.appendChild(link);
+    numElem.parentNode.appendChild(container);
+  }
+);
+
+// Jira Jan 2020 issue detail page. Uses functions for timer values due to SPA on issue-lists.
+togglbutton.render(
+  // The main "issue link" at the top of the issue.
+  '#jira-issue-header:not(.toggl)',
+  { observe: true },
+  async function (elem) {
+    const container = elem.querySelector('[class^=BreadcrumbsContainer]');
+    const issueNumberElement = container.lastElementChild;
+
+    if (container.querySelector('.toggl-button')) {
+      // We're checking for existence of the button as re-rendering in Jira SPA is not reliable for our uses.
+      if (process.env.DEBUG) {
+        console.info('🚫 "Jira 2020-01 issue detail" quit rendering early');
+      }
+      return;
+    }
+
+    if (process.env.DEBUG) {
+      console.info('🏃 "Jira 2020-01 issue detail" rendering');
+    }
+
+    const templateSettings = new CustomTemplateMessenger('getJiraCustomTemplateSettings');
+    await templateSettings.fetchSettings();
+    const templateParser = new CustomTemplateParser(customTemplateMap, templateSettings.customTemplate);
+
+    const link = togglbutton.createTimerLink({
+      className: 'jira2018',
+      description: templateSettings.useCustomTemplate ? templateParser.parse() : getDescription(issueNumberElement),
+      projectName: getProject,
+      container: '#jira-issue-header'
+    });
+
+    container.appendChild(link);
+  }
+);
+
 // Jira 2017 issue page
 togglbutton.render(
   '.issue-header-content:not(.toggl)',
@@ -136,6 +139,7 @@ togglbutton.render(
     if (process.env.DEBUG) {
       console.info('🏃 "Jira 2017 issue page" rendering');
     }
+    console.log('In Pre 2017 Issue page');
 
     const numElem = $('#key-val', elem);
     const titleElem = $('#summary-val', elem) || '';
@@ -184,6 +188,7 @@ togglbutton.render('#ghx-detail-issue:not(.toggl)', { observe: true }, function 
   const numElem = $('.ghx-fieldname-issuekey a');
   const projectElem = $('.ghx-project', elem);
   let description = titleElem.textContent;
+  console.log('In Pre 17 1');
   if (numElem !== null) {
     description = numElem.textContent + ' ' + description;
   }
@@ -207,7 +212,7 @@ togglbutton.render(
     const numElem = $('#key-val', elem);
     const titleElem = $('#summary-val', elem) || '';
     const projectElem = $('#project-name-val', elem);
-
+    console.log('In Pre 17 2');
     if (titleElem) {
       description = titleElem.textContent;
     }
